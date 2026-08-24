@@ -1,13 +1,70 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import EthImage from "../images/ethereum.svg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import nftImage from "../images/nftImage.jpg";
+import axios from "axios";
+import Skeleton from "../components/UI/Skeleton";
 
 const ItemDetails = () => {
+
+  const { id } = useParams(); //Get ID from URL
+  const [loading, setLoading] = useState(true);
+  const [itemData, setItemData] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+
+    // API Fetch for Item Data
+    const fetchItemDetails = async () => {
+      setLoading(true);
+      try {
+        axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections/${id}`);
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        setItemData({ title: "Rainbow Style #194", price: "1.85"});
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItemDetails();
+  }, [id]);
+
+  // Skeleton State
+  if (loading) {
+    return (
+      <div id="wrapper">
+        <div className="no-bottom no-top" id="content">
+          <section className="mt90 sm-mt-0">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-6 text-center">
+                  <Skeleton width="100%" height="400px" borderRadius="15px" />
+                </div>
+                <div className="col-md-6">
+                  <div className="item_info">
+                    <Skeleton width="60%" height="30px" borderRadius="5px" />
+                    <div className="spacer-20"></div>
+                    <div className="d-flex flex-row">
+                      <Skeleton width="40px" height="40px" borderRadius="50%" />
+                      <div className="spacer-10"></div>
+                      <Skeleton width="100px" height="20px" borderRadius="5px" />
+                    </div>
+                    <div className="spacer-20"></div>
+                    <Skeleton width="100%" height="100px" borderRadius="5px" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    );
+  }
+
+  //Actual Content State
 
   return (
     <div id="wrapper">
@@ -25,7 +82,7 @@ const ItemDetails = () => {
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>Rainbow Style #194</h2>
+                  <h2>{itemData?.title}</h2>
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
@@ -78,7 +135,7 @@ const ItemDetails = () => {
                     <h6>Price</h6>
                     <div className="nft-item-price">
                       <img src={EthImage} alt="" />
-                      <span>1.85</span>
+                      <span>{itemData?.price}</span>
                     </div>
                   </div>
                 </div>

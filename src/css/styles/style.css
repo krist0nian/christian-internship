@@ -28,6 +28,11 @@
 
 /* ================================================== */
 
+.slick-arrow, .slick-prev, .slick-next {
+  z-index: 10;
+  display: visible;
+}
+
 html {
   overflow-x: hidden;
   padding: 0;
