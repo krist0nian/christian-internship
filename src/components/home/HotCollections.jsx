@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 const API_URL =
@@ -76,7 +78,7 @@ const HotCollections = () => {
                 <div key={item.id}>  
                     <div className="nft_coll">
                       <div className="nft_wrap">
-                        <Link to="/item-details">
+                        <Link to={`/item-details/${item.id}`}>
                           <img
                             src={item.nftImage}
                             className="lazy img-fluid"
