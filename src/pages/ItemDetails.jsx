@@ -19,7 +19,7 @@ const ItemDetails = () => {
     const fetchItemDetails = async () => {
       setLoading(true);
       try {
-        axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections/${id}`);
+        axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections${id}`);
         await new Promise((resolve) => setTimeout(resolve, 1500));
         setItemData({ title: "Rainbow Style #194", price: "1.85"});
       } catch (err) {
@@ -82,7 +82,7 @@ const ItemDetails = () => {
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>{itemData?.title}</h2>
+                  <h2>{itemData.title}</h2>
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
@@ -135,7 +135,7 @@ const ItemDetails = () => {
                     <h6>Price</h6>
                     <div className="nft-item-price">
                       <img src={EthImage} alt="" />
-                      <span>{itemData?.price}</span>
+                      <span>{itemData.price}</span>
                     </div>
                   </div>
                 </div>

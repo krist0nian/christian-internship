@@ -9,6 +9,27 @@ import "slick-carousel/slick/slick-theme.css";
 const API_URL =
   "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections";
 
+const HotCollectionSkeleton = () => {
+  return (
+    <div>
+      <div className="nft_coll">
+        <div className="nft_wrap">
+          <div className="skeleton-box skeleton-collection-image"></div>
+        </div>
+
+        <div className="nft_coll_pp">
+          <div className="skeleton-box skeleton-collection-avatar"></div>
+        </div>
+
+        <div className="nft_coll_info">
+          <div className="skeleton-box skeleton-collection-title"></div>
+          <div className="skeleton-box skeleton-collection-code"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +37,7 @@ const HotCollections = () => {
 
   const settings = {
     dots: true,
-    arrow: true,
+    arrows: true,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
@@ -67,11 +88,19 @@ const HotCollections = () => {
             </div>
           </div>
 
-          {loading && <div className="col-lg-12 text-center">Loading...</div>}
+          {loading && (
+          <div className="col-lg-12">
+            <Slider {...settings}>
+              {Array.from({ length: 4 }).map((_, index) => (
+              <HotCollectionSkeleton key={index} />
+              ))}
+            </Slider>
+          </div>
+          )}
+          
           {error && <div className="col-lg-12 text-center">{error}</div>}
 
-          {!loading && !error && (
-           
+          {!loading && !error && (  
             <div className="col-lg-12">
               <Slider {...settings}>
                 {collections.map((item) => (
@@ -88,7 +117,7 @@ const HotCollections = () => {
                       </div>
 
                       <div className="nft_coll_pp">
-                        <Link to="/author">
+                        <Link to="/author/">
                           <img
                             className="lazy pp-coll"
                             src={item.authorImage}
