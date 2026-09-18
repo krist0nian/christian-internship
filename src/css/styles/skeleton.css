@@ -15,7 +15,7 @@
     rgba(255, 255, 255, 0.65),
     transparent
   );
-  animation: skeleton-loading 1.4s infinite;
+  animation: skeleton-loading 1.5s infinite;
 }
 
 @keyframes skeleton-loading {
@@ -115,5 +115,66 @@
 
   .skeleton-item-image {
     height: 250px;
+  }
+}
+
+/* Top Sellers */
+.top-seller-skeleton {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-height: 70px;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #e5e7eb;
+  border-radius: 6px;
+}
+
+/* Moving shine effect */
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.skeleton-seller-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.skeleton-name {
+  width: 140px;
+  height: 14px;
+}
+
+.skeleton-price {
+  width: 80px;
+  height: 12px;
+}
+
+@keyframes skeleton-loading {
+  100% {
+    left: 100%;
   }
 }
