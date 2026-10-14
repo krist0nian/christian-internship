@@ -9,7 +9,7 @@ const API_URL =
 
 const SkeletonCard = () => {
   return (
-    <div className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12">
+    <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12">
       <div className="nft__item">
         <div className="skeleton skeleton-author"></div>
 
@@ -28,11 +28,57 @@ const SkeletonCard = () => {
   );
 };
 
+const getRemainingTime = (expiryDate, currentTime) => {
+  if (!expiryDate) return null;
+
+  const expiryTime = expiryDate * 1000;
+
+  if (Number.isNaN(expiryTime)) {
+    return null;
+  }
+
+  const difference = expiryTime - currentTime;
+
+  if (difference <= 0) {
+    return {
+      expired: true,
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
+
+  const totalSeconds = Math.floor(difference / 1000);
+
+  return {
+    expired: false,
+    days: Math.floor(totalSeconds / (60 * 60 * 24)),
+    hours: Math.floor((totalSeconds / (60 * 60)) % 24),
+    minutes: Math.floor((totalSeconds / 60) % 60),
+    seconds: totalSeconds % 60,
+  };
+};
+
+const formatTime = (time) => {
+  if (!time) return null;
+
+  if (time.expired) {
+    return "Expired";
+  }
+
+  return `${String(time.hours).padStart(2, "0")}h ${String(
+    time.minutes
+  ).padStart(2, "0")}m ${String(time.seconds).padStart(2, "0")}s`;
+};
+
 const ExploreItems = () => {
   const [exploreItems, setExploreItems] = useState([]);
   const [sortBy, setSortBy] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(8);
+  const [currentTime, setCurrentTime] = useState(Date.now());
 
 useEffect(() => {
   const fetchExploreItems = async () => {
@@ -64,6 +110,16 @@ useEffect(() => {
 
   fetchExploreItems();
 }, []);
+
+  // Update the countdown every second
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
 
   const sortedItems = useMemo(() => {
     const items = [...exploreItems];
@@ -127,7 +183,7 @@ useEffect(() => {
 
       {!loading &&
         !error &&
-        sortedItems.map((item, index) => {
+        sortedItems.slice(0, visibleCount).map((item, index) => {
           const itemId = item.id || item._id || index;
 
           const image =
@@ -167,7 +223,9 @@ useEffect(() => {
                 <i className="fa fa-check"></i>
               </Link>
             </div>
-            <div className="de_countdown">{item.timeLeft || item.expiry || "5h 30m 32s"}</div>
+            <div className="de_countdown">
+              {formatTime(getRemainingTime(item.expiryDate, currentTime))}
+            </div>
 
             <div className="nft__item_wrap">
               <div className="nft__item_extra">
@@ -208,7 +266,7 @@ useEffect(() => {
 
       {!loading && !error && sortedItems.length > 0 && (
         <div className="col-md-12 text-center">
-          <button type="button" id="loadmore" className="btn-main lead">
+          <button type="button" id="loadmore" className="btn-main lead" onClick={() => setVisibleCount(visibleCount + 4)}>
             Load more
           </button>
         </div>
