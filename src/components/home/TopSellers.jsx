@@ -74,7 +74,7 @@ const TopSellers = () => {
               
                 <li key={seller.id}>
                   <div className="author_list_pp">
-                    <Link to="/author">
+                    <Link to={`/author/${seller.authorId}`}>
                       <img
                         className="lazy pp-author"
                         src={seller.authorImage}
@@ -88,7 +88,7 @@ const TopSellers = () => {
                   </div>
 
                   <div className="author_list_info">
-                    <Link to="/author">{seller.authorName}</Link>
+                    <Link to={`/author/${seller.authorId}`}>{seller.authorName}</Link>
                     <span> {seller.price} ETH</span>
                   </div>
                 </li>
