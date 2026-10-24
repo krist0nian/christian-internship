@@ -132,7 +132,7 @@ const NewItems = () => {
 
 
   return (
-    <section id="section-items" className="no-bottom">
+    <section id="section-items" data-aos="fade-up" data-aos-duration="2000" className="no-bottom">
       <div className="container">
         <div className="row">
           {/* Section Title */}

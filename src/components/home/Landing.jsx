@@ -8,6 +8,7 @@ const Landing = () => {
     <section
       id="section-hero"
       aria-label="section"
+      data-aos="fade-up" data-aos-duration="2000"
       className="no-top no-bottom vh-100"
       data-bgimage="url(images/bg-shape-1.jpg) bottom"
       style={{ background: `url(${backgroundImage}) bottom / cover` }}
@@ -23,7 +24,9 @@ const Landing = () => {
                 </span>
               </h6>
               <div className="spacer-10"></div>
-              <h1>Create, sell or collect digital items.</h1>
+              <h1>
+                Create, sell or collect digital items.
+              </h1>
               <p className="lead">
                 Unit of data stored on a digital ledger, called a blockchain,
                 that certifies a digital asset to be unique and therefore not
@@ -36,7 +39,7 @@ const Landing = () => {
               <div className="mb-sm-30"></div>
             </div>
             <div className="col-md-6 xs-hide">
-              <img src={NFT} className="lazy img-fluid" alt="" />
+              <img data-aos="fade-left" data-aos-duration="3000" src={NFT} className="lazy img-fluid" alt="" />
             </div>
           </div>
         </div>
