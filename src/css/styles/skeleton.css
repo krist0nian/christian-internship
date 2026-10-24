@@ -102,6 +102,36 @@
   border-radius: 4px;
 }
 
+/* New Items */
+.skeleton-item-image {
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+}
+
+.skeleton-item-avatar {
+  width: 45px;
+  height: 45px;
+  margin-top: -20px;
+  margin-left: 15px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+}
+
+.skeleton-item-title {
+  width: 70%;
+  height: 20px;
+  margin-top: 15px;
+  border-radius: 4px;
+}
+
+.skeleton-item-code {
+  width: 35%;
+  height: 15px;
+  margin-top: 12px;
+  border-radius: 4px;
+}
+
 /* Top sellers */
 .top-seller-skeleton {
   display: flex;
@@ -131,6 +161,72 @@
 .skeleton-seller-price {
   width: 80px;
   height: 12px;
+}
+
+/* Item Details */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #eeeeee 25%,
+    #f7f7f7 50%,
+    #eeeeee 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 4px;
+}
+
+.skeleton-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.skeleton-title {
+  width: 70%;
+  height: 32px;
+  margin-bottom: 20px;
+}
+
+.skeleton-count {
+  width: 52px;
+  height: 18px;
+  margin: 6px 0;
+}
+
+.skeleton-line {
+  width: 100%;
+  height: 14px;
+  margin: 12px 0;
+}
+
+.skeleton-line-short {
+  width: 65%;
+}
+
+.skeleton-label {
+  width: 60px;
+  height: 16px;
+  margin-bottom: 12px;
+}
+
+.skeleton-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.skeleton-name {
+  width: 110px;
+  height: 16px;
+}
+
+.skeleton-price-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.skeleton-price {
+  width: 55px;
+  height: 18px;
 }
 
 @keyframes skeleton-shimmer {
