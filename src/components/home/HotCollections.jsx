@@ -77,7 +77,7 @@ const HotCollections = () => {
   }, []);
 
   return (
-    <section id="section-collections" className="no-bottom">
+    <section id="section-collections" data-aos="fade-up" data-aos-duration="1800" className="no-bottom">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">

@@ -89,7 +89,7 @@ const Author = () => {
           style={{ background: `url(${AuthorBanner}) top` }}
         ></section>
 
-        <section aria-label="section">
+        <section aria-label="section" data-aos="fade-in" data-aos-duration="2000">
           <div className="container">
             <div className="row">
               <div className="col-md-12">
