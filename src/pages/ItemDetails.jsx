@@ -4,11 +4,81 @@ import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import nftImage from "../images/nftImage.jpg";
 import axios from "axios";
-import Skeleton from "../components/UI/Skeleton";
+
+const ItemDetailsSkeleton = () => (
+  <div id="wrapper">
+    <div className="no-bottom no-top" id="content">
+      <div id="top" />
+      <section aria-label="Loading item details" className="mt90 sm-mt-0">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 text-center">
+              <div className="skeleton skeleton-image img-rounded mb-sm-30" />
+            </div>
+
+            <div className="col-md-6">
+              <div className="item_info">
+                <div className="skeleton skeleton-title" />
+
+                <div className="item_info_counts">
+                  <div className="item_info_views">
+                    <div className="skeleton skeleton-count" />
+                  </div>
+                  <div className="item_info_like">
+                    <div className="skeleton skeleton-count" />
+                  </div>
+                </div>
+
+                <div className="skeleton skeleton-line" />
+                <div className="skeleton skeleton-line" />
+                <div className="skeleton skeleton-line skeleton-line-short" />
+
+                <div className="d-flex flex-row">
+                  <div className="mr40">
+                    <div className="skeleton skeleton-label" />
+                    <div className="item_author">
+                      <div className="author_list_pp">
+                        <div className="skeleton skeleton-avatar" />
+                      </div>
+                      <div className="author_list_info">
+                        <div className="skeleton skeleton-name" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="de_tab tab_simple">
+                  <div className="de_tab_content">
+                    <div className="skeleton skeleton-label" />
+                    <div className="item_author">
+                      <div className="author_list_pp">
+                        <div className="skeleton skeleton-avatar" />
+                      </div>
+                      <div className="author_list_info">
+                        <div className="skeleton skeleton-name" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="spacer-40" />
+                  <div className="skeleton skeleton-label" />
+                  <div className="nft-item-price">
+                    <div className="skeleton skeleton-price-icon" />
+                    <div className="skeleton skeleton-price" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+);
 
 const ItemDetails = () => {
 
-  const { id } = useParams(); //Get ID from URL
+  const { nftId } = useParams(); //Get ID from URL
   const [loading, setLoading] = useState(true);
   const [itemData, setItemData] = useState(null);
 
@@ -19,9 +89,9 @@ const ItemDetails = () => {
     const fetchItemDetails = async () => {
       setLoading(true);
       try {
-        axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections${id}`);
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setItemData({ title: "Rainbow Style #194", price: "1.85"});
+        const response = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`);
+        setItemData(response.data);
+        console.log("Item details:", response.data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -30,41 +100,14 @@ const ItemDetails = () => {
     };
 
     fetchItemDetails();
-  }, [id]);
+  }, [nftId]);
 
-  // Skeleton State
-  if (loading) {
-    return (
-      <div id="wrapper">
-        <div className="no-bottom no-top" id="content">
-          <section className="mt90 sm-mt-0">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-6 text-center">
-                  <Skeleton width="100%" height="400px" borderRadius="15px" />
-                </div>
-                <div className="col-md-6">
-                  <div className="item_info">
-                    <Skeleton width="60%" height="30px" borderRadius="5px" />
-                    <div className="spacer-20"></div>
-                    <div className="d-flex flex-row">
-                      <Skeleton width="40px" height="40px" borderRadius="50%" />
-                      <div className="spacer-10"></div>
-                      <Skeleton width="100px" height="20px" borderRadius="5px" />
-                    </div>
-                    <div className="spacer-20"></div>
-                    <Skeleton width="100%" height="100px" borderRadius="5px" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <ItemDetailsSkeleton />;
+  if (!itemData) return <p>Couldn’t load this item.</p>;
+
 
   //Actual Content State
+  if (!itemData) return null; // Prevents crashes if itemData is null
 
   return (
     <div id="wrapper">
@@ -75,7 +118,7 @@ const ItemDetails = () => {
             <div className="row">
               <div className="col-md-6 text-center">
                 <img
-                  src={nftImage}
+                  src={itemData.nftImage}
                   className="img-fluid img-rounded mb-sm-30 nft-image"
                   alt=""
                 />
@@ -87,11 +130,11 @@ const ItemDetails = () => {
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>
-                      100
+                      {itemData.views}
                     </div>
                     <div className="item_info_like">
                       <i className="fa fa-heart"></i>
-                      74
+                      {itemData.likes}
                     </div>
                   </div>
                   <p>
@@ -104,13 +147,13 @@ const ItemDetails = () => {
                       <h6>Owner</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
-                            <img className="lazy" src={AuthorImage} alt="" />
+                          <Link to={`/author/${itemData.ownerId}`}>
+                            <img className="lazy" src={itemData.ownerImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">Monica Lucas</Link>
+                          <Link to={`/author/${itemData.ownerId}`}>{itemData.ownerName}</Link>
                         </div>
                       </div>
                     </div>
@@ -121,13 +164,13 @@ const ItemDetails = () => {
                       <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
-                            <img className="lazy" src={AuthorImage} alt="" />
+                          <Link to={`/author/${itemData.creatorId}`}>
+                            <img className="lazy" src={itemData.creatorImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">Monica Lucas</Link>
+                          <Link to={`/author/${itemData.creatorId}`}>{itemData.creatorName}</Link>
                         </div>
                       </div>
                     </div>

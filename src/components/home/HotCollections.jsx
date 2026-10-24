@@ -103,10 +103,10 @@ const HotCollections = () => {
             <div className="col-lg-12">
               <Slider {...settings}>
                 {collections.map((item) => (
-                <div key={item.id}>  
+                <div key={item.nftId}>  
                     <div className="nft_coll">
                       <div className="nft_wrap">
-                        <Link to={`/item-details/${item.id}`}>
+                        <Link to={`/item-details/${item.nftId}`}>
                           <img
                             src={item.nftImage}
                             className="lazy img-fluid"
@@ -127,7 +127,7 @@ const HotCollections = () => {
                       </div>
 
                       <div className="nft_coll_info">
-                        <Link to={`/explore/${item.id}`}>
+                        <Link to={`/explore/${item.nftId}`}>
                           <h4>{item.title}</h4>
                         </Link>
                         <span>{`ERC-${item.code}`}</span>
