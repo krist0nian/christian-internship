@@ -185,8 +185,9 @@ const NewItems = () => {
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
-                <div className="de_countdown">{formatTime(remainingTime)}</div>
-
+                {remainingTime && (
+                  <div className="de_countdown">{formatTime(remainingTime)}</div>
+                )}
                 <div className="nft__item_wrap">
                   <div className="nft__item_extra">
                     <div className="nft__item_buttons">

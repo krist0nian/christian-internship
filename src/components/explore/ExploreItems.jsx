@@ -197,10 +197,11 @@ useEffect(() => {
                 <i className="fa fa-check"></i>
               </Link>
             </div>
-            <div className="de_countdown">
-              {formatTime(getRemainingTime(item.expiryDate, currentTime))}
-            </div>
-
+            {getRemainingTime(item.expiryDate, currentTime) && (
+              <div className="de_countdown">
+                {formatTime(getRemainingTime(item.expiryDate, currentTime))}
+              </div>
+            )}
             <div className="nft__item_wrap">
               <div className="nft__item_extra">
                 <div className="nft__item_buttons">
